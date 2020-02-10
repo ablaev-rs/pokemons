@@ -75,7 +75,7 @@ class Pokemon extends React.Component {
         return (
             <Container maxWidth="lg">
                 <Grid container spacing={2}>
-                    <Grid item xs={3} sm={3} md={2} lg={2}>
+                    <Grid item xs={12} sm={3} md={2} lg={2}>
 
                         <form onSubmit={setTemplateSearchByName}>
                             <InputLabel shrink htmlFor="select-multiple-native">
@@ -112,7 +112,7 @@ class Pokemon extends React.Component {
 
                     </Grid>
 
-                    <Grid item xs={9} sm={9} md={10} lg={10}>
+                    <Grid item xs={12} sm={9} md={10} lg={10}>
                         {loading ? <div>Loading...</div> : (
                             <TableContainer>
                                 <Table>
