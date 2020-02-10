@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/ablaev-rs/pokemons/static/css/main.b63c19c9.chunk.css",
-    "main.js": "/ablaev-rs/pokemons/static/js/main.866b0d0f.chunk.js",
-    "main.js.map": "/ablaev-rs/pokemons/static/js/main.866b0d0f.chunk.js.map",
-    "runtime-main.js": "/ablaev-rs/pokemons/static/js/runtime-main.a20c59de.js",
-    "runtime-main.js.map": "/ablaev-rs/pokemons/static/js/runtime-main.a20c59de.js.map",
-    "static/js/2.d7aab786.chunk.js": "/ablaev-rs/pokemons/static/js/2.d7aab786.chunk.js",
-    "static/js/2.d7aab786.chunk.js.map": "/ablaev-rs/pokemons/static/js/2.d7aab786.chunk.js.map",
-    "index.html": "/ablaev-rs/pokemons/index.html",
-    "precache-manifest.c18be25b6918d0790590e7cec5b7c84d.js": "/ablaev-rs/pokemons/precache-manifest.c18be25b6918d0790590e7cec5b7c84d.js",
-    "service-worker.js": "/ablaev-rs/pokemons/service-worker.js",
-    "static/css/main.b63c19c9.chunk.css.map": "/ablaev-rs/pokemons/static/css/main.b63c19c9.chunk.css.map",
-    "static/js/2.d7aab786.chunk.js.LICENSE": "/ablaev-rs/pokemons/static/js/2.d7aab786.chunk.js.LICENSE",
-    "static/media/defaultAvatar.png": "/ablaev-rs/pokemons/static/media/defaultAvatar.2b1594bb.png"
+    "main.css": "/pokemons/static/css/main.b63c19c9.chunk.css",
+    "main.js": "/pokemons/static/js/main.5dc3edff.chunk.js",
+    "main.js.map": "/pokemons/static/js/main.5dc3edff.chunk.js.map",
+    "runtime-main.js": "/pokemons/static/js/runtime-main.e8109137.js",
+    "runtime-main.js.map": "/pokemons/static/js/runtime-main.e8109137.js.map",
+    "static/js/2.971b98ae.chunk.js": "/pokemons/static/js/2.971b98ae.chunk.js",
+    "static/js/2.971b98ae.chunk.js.map": "/pokemons/static/js/2.971b98ae.chunk.js.map",
+    "index.html": "/pokemons/index.html",
+    "precache-manifest.5b203ae27e9b0b74675a0b7a8ed60a6e.js": "/pokemons/precache-manifest.5b203ae27e9b0b74675a0b7a8ed60a6e.js",
+    "service-worker.js": "/pokemons/service-worker.js",
+    "static/css/main.b63c19c9.chunk.css.map": "/pokemons/static/css/main.b63c19c9.chunk.css.map",
+    "static/js/2.971b98ae.chunk.js.LICENSE": "/pokemons/static/js/2.971b98ae.chunk.js.LICENSE",
+    "static/media/defaultAvatar.png": "/pokemons/static/media/defaultAvatar.2b1594bb.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.a20c59de.js",
-    "static/js/2.d7aab786.chunk.js",
+    "static/js/runtime-main.e8109137.js",
+    "static/js/2.971b98ae.chunk.js",
     "static/css/main.b63c19c9.chunk.css",
-    "static/js/main.866b0d0f.chunk.js"
+    "static/js/main.5dc3edff.chunk.js"
   ]
 }
