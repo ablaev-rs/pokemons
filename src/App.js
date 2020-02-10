@@ -1,26 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Pokemon from "./components/Pokemon/Pokemon";
+import {observer} from "mobx-react";
+import store from './store/pokemon-store';
+import Header from "./components/Header/Header";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  render() {
+    return (
+        <div className="App">
+          <Header />
+          <main role="main">
+            <div className="container">
+              <Pokemon store = {store} />
+            </div>
+          </main>
+        </div>
+    )
+  }
 }
 
-export default App;
+export default observer(App);
