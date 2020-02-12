@@ -27,9 +27,8 @@ class Pokemon extends React.Component {
     render() {
         const {
             Pokemons,
-            count, limit, perPage, currentPage, loading,
-            onLimitChanged, onPageChanged,
-            templatePokemonName, setTemplateSearchByName,
+            count, limit, perPage, currentPage, loading, onLimitChanged, onPageChanged,
+            setTemplateSearchByName,
             pokemonTypes, setSelectedTypes, selectedTypes,
             clearForm} = this.props.store;
 
@@ -114,7 +113,9 @@ class Pokemon extends React.Component {
 
                     <Grid item xs={12} sm={9} md={10} lg={10}>
                         {loading ? <div>Loading...</div> : (
-                            <TableContainer>
+                            <span>
+                                {Pokemons.length == 0 ? <div>Nothing found</div> : (
+                                    <TableContainer>
                                 <Table>
                                     <TableHead>
                                         <TableRow>
@@ -170,6 +171,8 @@ class Pokemon extends React.Component {
                                     </TableFooter>
                                 </Table>
                             </TableContainer>
+                                )}
+                            </span>
                         )}
                     </Grid>
                 </Grid>

@@ -17,36 +17,39 @@ class Store {
     tmpCount = 0;
     selectedTypes = [];
     tmpPokemons = [];
-    pokemonTypes = ["grass", "poison", "bug", "dark", "dragon", "electric", "fairy", "fighting", "fire", "flying", "ghost", "grass", "ground", "ice", "normal", "poison", "psychic", "rock", "steel", "water"];
+    pokemonTypes = ["bug", "dark", "dragon", "electric", "fairy", "fighting", "fire", "flying", "ghost", "grass", "ground", "ice", "normal", "poison", "psychic", "rock", "steel", "water"];
 
-    getPokemonsByType = (t) => {
-        return axios.get(`https://pokeapi.co/api/v2/type/` + t)
-    }
+    loadPokemons = async () => {
+        await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${this.offset}&limit=${this.limit}`)
+            .then(response => {
+                this.tmpCount = response.data.count;
+                let pokemonLinks = response.data.results;
+                this.templatePokemonName ?
+                    this.searchPokemonsByName(pokemonLinks) :
+                    this.getDetailsForPokemonsByUrl(pokemonLinks, response.data.count);
+            })
+    };
 
-    getListUrlForSelectedTypes =  () => {
-        let pokemonLinks = [];
-        this.loading = true;
+    getDetailsForPokemonsByUrl = (pokemonLinks, cnt) => {
         Promise.all(
-            this.selectedTypes.map (t => {
-                return this.getPokemonsByType(t);
+            pokemonLinks.map( p => {
+                return this.getPokemonsInfo(p.url);
             })
         ).then( response => {
-            response.map( arr => {
-                let data = arr.data.pokemon;
-                data.map( el => {
-                    pokemonLinks.push(el.pokemon);
-                })
-            });
-            this.tmpPokemons = pokemonLinks;
-            this.selectionElementsForPage(this.tmpPokemons);
+            runInAction(() => {
+                this.setCount(cnt);
+                this.setPokemons(response);
+                this.loading = false;
+            })
         })
     }
 
-    selectionElementsForPage = (pokemonLinks) => {
-        let selection = pokemonLinks.slice(this.offset, this.offset+this.limit);
-        this.loading = true;
-        this.getDetailsForPokemonsByUrl(selection, pokemonLinks.length);
-    }
+    getPokemonsInfo = (url) => {
+        return axios.get(url)
+    };
+
+
+    /* SEARCH POKEMONS BY TYPES */
 
     setSelectedTypes = (e) => {
         this.loading = true;
@@ -63,19 +66,38 @@ class Store {
         e.preventDefault();
     }
 
-    loadPokemons = async () => {
-        await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${this.offset}&limit=${this.limit}`)
-            .then(response => {
-                this.tmpCount = response.data.count;
-                let pokemonLinks = response.data.results;
-                this.templatePokemonName ?
-                    this.searchPokemonsByName(pokemonLinks) :
-                    this.getDetailsForPokemonsByUrl(pokemonLinks, response.data.count);
+    getListUrlForSelectedTypes =  () => {
+        let pokemonLinks = [];
+        Promise.all(
+            this.selectedTypes.map (t => {
+                return this.getPokemonsByType(t);
             })
-    };
+        ).then( response => {
+            response.map( arr => {
+                let data = arr.data.pokemon;
+                data.map( el => {
+                    pokemonLinks.push(el.pokemon);
+                })
+            });
+            this.tmpPokemons = [...new Map(pokemonLinks.map(obj => [JSON.stringify(obj), obj])).values()];
+            this.selectionElementsForPage(this.tmpPokemons);
+        })
+    }
 
-    getPokemonsInfo = (url) => {
-        return axios.get(url)
+    getPokemonsByType = (t) => {
+        return axios.get(`https://pokeapi.co/api/v2/type/` + t)
+    }
+
+
+    /* SEARCH POKEMONS BY NAME */
+
+    setTemplateSearchByName = (e) => {
+        this.selectedTypes = [];
+        this.loading = true;
+        this.templatePokemonName = e.target.templatePokemonName.value;
+        this.setOffset(0);
+        this.loadPokemons();
+        e.preventDefault();
     };
 
     searchPokemonsByName = (pokemonLinks) => {
@@ -84,31 +106,29 @@ class Store {
         });
 
         if(searchResult.length > 0) {
-            this.getDetailsForPokemonsByUrl(searchResult, pokemonLinks.length);
+            this.getDetailsForPokemonsByUrl(searchResult, searchResult.length);
 
         } else {
-            if(this.offset < 20) {
+            if(this.offset < this.tmpCount) {
                 let newOffset = this.offset + this.limit;
                 this.setOffset(newOffset);
                 this.loadPokemons();
+            } else {
+                this.setPokemons([]);
+                this.loading = false;
             }
         }
     }
 
-    getDetailsForPokemonsByUrl = (pokemonLinks, cnt) => {
-        Promise.all(
-            pokemonLinks.map( p => {
-                return this.getPokemonsInfo(p.url);
-            })
-        ).then( response => {
-            runInAction(() => {
-                this.setCount(cnt);
-                this.setPokemons(response);
-                this.loading = false;
-            })
-        })
-    }
 
+    clearForm = (e) => {
+        this.loading = true;
+        this.setOffset(0);
+        this.selectedTypes = [];
+        this.templatePokemonName = "";
+        this.loadPokemons();
+        e.preventDefault();
+    }
 
     onLimitChanged = (event) => {
         runInAction( () => {
@@ -127,10 +147,14 @@ class Store {
             this.offset = p*this.limit;
             this.loading = true;
             this.selectedTypes.length > 0 ? this.selectionElementsForPage(this.tmpPokemons) : this.loadPokemons();
-
         });
-
     };
+
+    selectionElementsForPage = (pokemonLinks) => {
+        let selection = pokemonLinks.slice(this.offset, this.offset+this.limit);
+        this.loading = true;
+        this.getDetailsForPokemonsByUrl(selection, pokemonLinks.length);
+    }
 
     setPokemons = data => {
         this.Pokemons = data;
@@ -143,22 +167,6 @@ class Store {
     setOffset = offset => {
         this.offset = offset;
     };
-
-    setTemplateSearchByName = (e) => {
-        this.selectedTypes = [];
-        this.templatePokemonName = e.target.templatePokemonName.value;
-        this.setOffset(0);
-        this.loadPokemons();
-        e.preventDefault();
-    };
-
-    clearForm = (e) => {
-        this.selectedTypes = [];
-        this.templatePokemonName = "";
-        this.loadPokemons();
-        e.preventDefault();
-    }
-
 }
 
 Store = decorate(Store, {
