@@ -74,6 +74,7 @@ class Pokemon extends React.Component {
         return (
             <Container maxWidth="lg">
                 <Grid container spacing={2}>
+
                     <Grid item xs={12} sm={3} md={2} lg={2}>
 
                         <form onSubmit={setTemplateSearchByName}>
