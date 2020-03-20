@@ -1,10 +1,10 @@
-import {action, configure, decorate, observable, runInAction} from "mobx";
+import {action, configure, decorate, observable, runInAction, toJS} from "mobx";
 import * as axios from "axios";
 import React from "react";
+import authorizationData from "./auth-store";
+configure({enforceActions: "observed"});
 
-configure({enforceActions: true});
-
-class Store {
+class pokemonData {
 
     Pokemons = [];
     perPage = [10, 20, 50];
@@ -17,9 +17,105 @@ class Store {
     tmpCount = 0;
     selectedTypes = [];
     tmpPokemons = [];
+    favoritePokemons = [];
+    h1 = "List of Pokemon";
     pokemonTypes = ["bug", "dark", "dragon", "electric", "fairy", "fighting", "fire", "flying", "ghost", "grass", "ground", "ice", "normal", "poison", "psychic", "rock", "steel", "water"];
 
+    addToFavorite = async (e) => {
+        e.preventDefault();
+        let pid = e.target.pid.value;
+        let authToken = e.target.authToken.value;
+        await axios.post(
+            '/api/favorite/add',
+            { link: "https://pokeapi.co/api/v2/pokemon/"+pid+"/"},
+            {
+                headers: {
+                    'Authorization':'Bearer ' + authToken,
+                    'alg': 'HS256',
+                    'typ': 'JWT',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response.data.message);
+                this.getListFavorite();
+            });
+    };
+
+    deleteFromFavorite = async (e) => {
+        e.preventDefault();
+        let pid = e.target.pid.value;
+        let authToken = e.target.authToken.value;
+        await axios.post(
+            '/api/favorite/delete',
+            { link: "https://pokeapi.co/api/v2/pokemon/"+pid+"/"},
+            {
+                headers: {
+                    'Authorization':'Bearer ' + authToken,
+                    'alg': 'HS256',
+                    'typ': 'JWT',
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                console.log(response.data.message);
+                this.getListFavorite();
+            });
+    };
+
+    isFavorite = (url) => {
+        let favoriteArray = toJS(this.favoritePokemons);
+        return favoriteArray.findIndex( currentValue => currentValue.url === url );
+    }
+
+    getListFavorite = async () => {
+            this.loading = true;
+            let pokemonLinks = [];
+            await axios.get(`/api/favorite/list/`,
+                {
+                    headers: {
+                        'Authorization': 'Bearer ' + authorizationData.token,
+                        'alg': 'HS256',
+                        'typ': 'JWT'
+                    }
+                })
+                .then(response => {
+                    let data = response.data;
+                    data.map(p => {
+                        pokemonLinks.push({"url": p.link});
+                    });
+                    this.favoritePokemons = pokemonLinks;
+                    this.loadPokemons();
+                });
+    }
+
+    listFavorite = async (authToken) => {
+        let pokemonLinks = [];
+         await axios.get(`/api/favorite/list/`,
+            {
+                headers: {
+                    'Authorization':'Bearer ' + authToken,
+                    'alg': 'HS256',
+                    'typ': 'JWT'
+                }
+            })
+            .then(response => {
+                let data = response.data;
+                data.map( p => {
+                    pokemonLinks.push({"url": p.link});
+                });
+                this.favoritePokemons = pokemonLinks;
+                this.h1 = "My Favorite Pokemons";
+                this.getDetailsForPokemonsByUrl(pokemonLinks, pokemonLinks.length);
+            });
+    }
+
+
+
+
     loadPokemons = async () => {
+        this.h1 = "List of Pokemon";
+        this.loading = true;
         await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${this.offset}&limit=${this.limit}`)
             .then(response => {
                 this.tmpCount = response.data.count;
@@ -42,7 +138,7 @@ class Store {
                 this.loading = false;
             })
         })
-    }
+    };
 
     getPokemonsInfo = (url) => {
         return axios.get(url)
@@ -64,7 +160,7 @@ class Store {
         this.selectedTypes = value;
         this.getListUrlForSelectedTypes();
         e.preventDefault();
-    }
+    };
 
     getListUrlForSelectedTypes =  () => {
         let pokemonLinks = [];
@@ -82,11 +178,11 @@ class Store {
             this.tmpPokemons = [...new Map(pokemonLinks.map(obj => [JSON.stringify(obj), obj])).values()];
             this.selectionElementsForPage(this.tmpPokemons);
         })
-    }
+    };
 
     getPokemonsByType = (t) => {
         return axios.get(`https://pokeapi.co/api/v2/type/` + t)
-    }
+    };
 
 
     /* SEARCH POKEMONS BY NAME */
@@ -118,8 +214,7 @@ class Store {
                 this.loading = false;
             }
         }
-    }
-
+    };
 
     clearForm = (e) => {
         this.loading = true;
@@ -128,7 +223,7 @@ class Store {
         this.templatePokemonName = "";
         this.loadPokemons();
         e.preventDefault();
-    }
+    };
 
     onLimitChanged = (event) => {
         runInAction( () => {
@@ -154,7 +249,7 @@ class Store {
         let selection = pokemonLinks.slice(this.offset, this.offset+this.limit);
         this.loading = true;
         this.getDetailsForPokemonsByUrl(selection, pokemonLinks.length);
-    }
+    };
 
     setPokemons = data => {
         this.Pokemons = data;
@@ -169,7 +264,7 @@ class Store {
     };
 }
 
-Store = decorate(Store, {
+pokemonData = decorate(pokemonData, {
     Pokemons: observable,
     count: observable,
     offset: observable,
@@ -178,6 +273,7 @@ Store = decorate(Store, {
     loading: observable,
     templatePokemonName: observable,
     tmpCount: observable,
+    favoritePokemons: observable,
     onLimitChanged: action,
     onPageChanged: action,
     loadPokemons: action,
@@ -188,7 +284,12 @@ Store = decorate(Store, {
     searchPokemonsByName: action,
     handleSubmitName:action,
     setSelectedTypes: action,
-    selectionElementsForPage: action
+    selectionElementsForPage: action,
+    addToFavorite: action,
+    deleteFromFavorite: action,
+    listFavorite: action,
+    isFavorite: action,
+    getListFavorite: action
 });
 
-export default new Store;
+export default new pokemonData;

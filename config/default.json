@@ -1,0 +1,7 @@
+{
+    "port": 5000,
+    "jwtSecret": "fsjgksjdgsgdfuysgdjkhsgdh",
+    "jwtExpirySeconds": 3000,
+    "mongoUri": "mongodb+srv://pokemonApp:uiygf87aksjhd@pokemoncluster-61xi5.mongodb.net/pokemonDb?retryWrites=true&w=majority",
+    "baseUrl": "https://ablaev-rs.github.io/pokemons/"
+}

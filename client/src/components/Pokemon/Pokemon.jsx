@@ -1,4 +1,5 @@
 import React from 'react';
+import AuthApi from "../../сontext/authContext.js";
 import {observer} from "mobx-react";
 import s from "./Pokemon.module.css";
 import { toJS } from 'mobx';
@@ -17,41 +18,51 @@ import TableFooter from "@material-ui/core/TableFooter";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
+import Typography from "@material-ui/core/Typography";
+//const authModule = require("../../сontext/authModule");
+
 
 class Pokemon extends React.Component {
 
+    static contextType = AuthApi;
+
     componentDidMount() {
-        this.props.store.loadPokemons();
+        if(this.context.token) {
+            this.props.store.getListFavorite();
+        } else {
+            this.props.store.loadPokemons();
+        }
     }
 
     render() {
+
         const {
-            Pokemons,
-            count, limit, perPage, currentPage, loading, onLimitChanged, onPageChanged,
-            setTemplateSearchByName,
-            pokemonTypes, setSelectedTypes, selectedTypes,
+            Pokemons, count, limit, perPage, currentPage, loading, onLimitChanged, onPageChanged,
+            setTemplateSearchByName, pokemonTypes, setSelectedTypes, selectedTypes,
+            addToFavorite, isFavorite, deleteFromFavorite, h1,
             clearForm} = this.props.store;
 
         let setColorType = (name) => {
             switch (name) {
-                case "bug": return s.bug; break;
-                case "dark": return s.dark; break;
-                case "dragon": return s.dragon; break;
-                case "electric": return s.electric; break;
-                case "fairy": return s.fairy; break;
-                case "fighting": return s.fighting; break;
-                case "fire": return s.fire; break;
-                case "flying": return s.flying; break;
-                case "ghost": return s.ghost; break;
-                case "grass": return s.grass; break;
-                case "ground": return s.ground; break;
-                case "ice": return s.ice; break;
-                case "normal": return s.normal; break;
-                case "poison": return s.poison; break;
-                case "psychic": return s.psychic; break;
-                case "rock": return s.rock; break;
-                case "steel": return s.steel; break;
-                case "water": return s.water; break;
+                case "bug": return s.bug;
+                case "dark": return s.dark;
+                case "dragon": return s.dragon;
+                case "electric": return s.electric;
+                case "fairy": return s.fairy;
+                case "fighting": return s.fighting;
+                case "fire": return s.fire;
+                case "flying": return s.flying;
+                case "ghost": return s.ghost;
+                case "grass": return s.grass;
+                case "ground": return s.ground;
+                case "ice": return s.ice;
+                case "normal": return s.normal;
+                case "poison": return s.poison;
+                case "psychic": return s.psychic;
+                case "rock": return s.rock;
+                case "steel": return s.steel;
+                case "water": return s.water;
+                default: return null;
             }
         };
 
@@ -72,9 +83,8 @@ class Pokemon extends React.Component {
 
 
         return (
-            <Container maxWidth="lg">
+            <Container fixed>
                 <Grid container spacing={2}>
-
                     <Grid item xs={12} sm={3} md={2} lg={2}>
 
                         <form onSubmit={setTemplateSearchByName}>
@@ -106,15 +116,17 @@ class Pokemon extends React.Component {
                             <Button type="submit" className="MuiButton-containedPrimary MuiButton-containedSizeSmall">Search</Button>
                         </form>
 
-                        <form onSubmit={clearForm}>
+                        {/*<form onSubmit={clearForm}>
                             <Button type="submit" className="MuiButton-outlinedSecondary MuiButton-containedSizeSmall">Clear Form</Button>
-                        </form>
+                        </form>*/}
 
                     </Grid>
-
                     <Grid item xs={12} sm={9} md={10} lg={10}>
                         {loading ? <div>Loading...</div> : (
                             <span>
+                                <Typography variant="h3" noWrap="true" gutterBottom="true">
+                                  {h1}
+                                </Typography>
                                 {Pokemons.length == 0 ? <div>Nothing found</div> : (
                                     <TableContainer>
                                 <Table>
@@ -136,7 +148,26 @@ class Pokemon extends React.Component {
                                                 <TableRow hover>
                                                     <TableCell align="center"><img
                                                         src={p.data.sprites.front_default ? p.data.sprites.front_default : defaultAvatar}
-                                                        alt={p.data.name}/><br/><strong>{p.data.name}</strong></TableCell>
+                                                        alt={p.data.name}/><br/>
+                                                        <strong>{p.data.name}</strong><br/>
+                                                            {this.context.token ?
+                                                                <span>
+                                                                    { (isFavorite(p.config.url)==-1) ?
+                                                                        <form onSubmit={addToFavorite}>
+                                                                            <Input type="hidden" value={p.data.id} name = "pid" />
+                                                                            <Input type="hidden" value={this.context.token} name = "authToken" />
+                                                                            <Button type="submit" variant="outlined" size="small" color="primary">Add to Favorite</Button>
+                                                                        </form>
+                                                                        :
+                                                                        <form onSubmit={deleteFromFavorite}>
+                                                                            <Input type="hidden" value={p.data.id} name = "pid" />
+                                                                            <Input type="hidden" value={this.context.token} name = "authToken" />
+                                                                            <Button type="submit" variant="outlined" size="small" color="secondary">Delete From Favorite</Button>
+                                                                        </form>
+                                                                    }
+                                                                </span>
+                                                                    : ""}
+                                                    </TableCell>
                                                     <TableCell align="center">
                                                         {
                                                             p.data.types.map(t =>
