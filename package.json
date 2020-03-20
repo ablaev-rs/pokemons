@@ -1,4 +1,5 @@
 {
+  "homepage": "https://ablaev-rs.github.io/pokemons",
   "name": "pokemons",
   "version": "1.0.0",
   "description": "Pokemons App",
@@ -8,7 +9,7 @@
     "server": "nodemon app.js",
     "client": "npm run start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "build": "react-scripts build",
+    "build": "node build/build.js",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
@@ -28,7 +29,6 @@
   "bugs": {
     "url": "https://github.com/ablaev-rs/pokemons/issues"
   },
-  "homepage": "https://github.com/ablaev-rs/pokemons#readme",
   "dependencies": {
     "@material-ui/core": "^4.9.3",
     "@material-ui/icons": "^4.9.1",
@@ -43,6 +43,7 @@
   },
   "devDependencies": {
     "concurrently": "^5.1.0",
+    "gh-pages": "^2.2.0",
     "nodemon": "^2.0.2"
   }
 }
