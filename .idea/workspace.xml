@@ -85,12 +85,13 @@
         <option value="$PROJECT_DIR$/config/default.json" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/app.js" />
+        <option value="$PROJECT_DIR$/config/production.json" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="322" />
-    <option name="y" value="113" />
+    <option name="x" value="247" />
+    <option name="y" value="59" />
     <option name="width" value="1396" />
     <option name="height" value="890" />
   </component>
@@ -205,15 +206,16 @@
       <workItem from="1582103432888" duration="2473000" />
       <workItem from="1582107229550" duration="10000" />
       <workItem from="1585041360387" duration="3881000" />
-      <workItem from="1585066044482" duration="5014000" />
+      <workItem from="1585066044482" duration="5625000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="244238000" />
+    <option name="totallyTimeSpent" value="244849000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="322" y="113" width="1396" height="890" extended-state="0" />
+    <frame x="248" y="101" width="1396" height="890" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18335788" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -316,10 +318,10 @@
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/default.json">
+    <entry file="file://$PROJECT_DIR$/config/production.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="115">
-          <caret line="5" column="54" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
+        <state>
+          <caret column="2" selection-start-column="2" selection-end-column="2" />
         </state>
       </provider>
     </entry>
@@ -327,6 +329,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="92">
           <caret line="7" column="14" selection-start-line="7" selection-start-column="14" selection-end-line="7" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/default.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="5" column="54" selection-start-line="5" selection-start-column="54" selection-end-line="5" selection-end-column="54" />
         </state>
       </provider>
     </entry>
