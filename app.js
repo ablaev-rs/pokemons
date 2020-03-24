@@ -3,14 +3,12 @@ const express = require('express');
 const app = express();
 
 const config = require('config');
-const PORT = config.get('port') || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(express.json({ extended: true }));
 
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/favorite', require('./routes/favorite.routes'));
-
-
 
 async function start() {
     try {

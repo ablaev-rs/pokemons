@@ -1,17 +1,14 @@
 {
-  "homepage": "https://ablaev-rs.github.io/pokemons",
+  "homepage": "https://quiet-mesa-94808.herokuapp.com",
   "name": "pokemons",
   "version": "1.0.0",
   "description": "Pokemons App",
   "main": "app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node app.js",
+    "start": "node app.js",
     "server": "nodemon app.js",
     "client": "npm run start --prefix client",
-    "client:install": "npm install --prefix client",
-    "client:build": "npm run build --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "deploy": "gh-pages -d build"
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "repository": {
     "type": "git",
