@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="aabea066-df97-4811-a460-3ff8353fffe0" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-    </list>
+    <list default="true" id="aabea066-df97-4811-a460-3ff8353fffe0" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -91,8 +89,8 @@
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="219" />
-    <option name="y" value="73" />
+    <option name="x" value="322" />
+    <option name="y" value="113" />
     <option name="width" value="1396" />
     <option name="height" value="890" />
   </component>
@@ -108,17 +106,6 @@
             <path>
               <item name="pokemons" type="b2602c69:ProjectViewProjectNode" />
               <item name="pokemons" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pokemons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pokemons" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="pokemons" type="b2602c69:ProjectViewProjectNode" />
-              <item name="pokemons" type="462c0819:PsiDirectoryNode" />
-              <item name="client" type="462c0819:PsiDirectoryNode" />
-              <item name="build" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="pokemons" type="b2602c69:ProjectViewProjectNode" />
@@ -218,15 +205,15 @@
       <workItem from="1582103432888" duration="2473000" />
       <workItem from="1582107229550" duration="10000" />
       <workItem from="1585041360387" duration="3881000" />
-      <workItem from="1585066044482" duration="4211000" />
+      <workItem from="1585066044482" duration="5014000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="243435000" />
+    <option name="totallyTimeSpent" value="244238000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="71" y="103" width="1396" height="890" extended-state="0" />
+    <frame x="322" y="113" width="1396" height="890" extended-state="0" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18335788" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
