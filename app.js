@@ -12,7 +12,7 @@ app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/favorite', require('./routes/favorite.routes'));
 
 if(process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join('client/build'));
+    app.use(express.static(path.join('client/build')));
     add.get('*', (req, res) => {
         res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     })
