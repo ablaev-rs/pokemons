@@ -10,6 +10,8 @@ app.use(express.json({ extended: true }));
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/favorite', require('./routes/favorite.routes'));
 
+
+
 async function start() {
     try {
         await mongoose.connect(config.get('mongoUri'), {
