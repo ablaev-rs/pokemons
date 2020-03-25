@@ -20,8 +20,8 @@ const allowCrossDomain = function(req,res,next) {
 app.use(allowCrossDomain);
 
 app.use(expressCspHeader({
-    policies: {
-        'default-src': [SELF, "http://ablaev.pro"],
+    directives: {
+        'default-src': [SELF]
     }
 }));
 
