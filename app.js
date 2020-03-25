@@ -16,6 +16,10 @@ app.use(expressCspHeader({
     directives: {
         'default-src': [SELF],
 
+    },
+    policies: {
+        'default-src': [NONE],
+
     }
 }));
 
