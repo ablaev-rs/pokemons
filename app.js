@@ -19,13 +19,9 @@ const allowCrossDomain = function(req,res,next) {
 };
 app.use(allowCrossDomain);
 
-
 app.use(expressCspHeader({
     directives: {
-        'default-src': [SELF],
-        'script-src': [SELF, INLINE, 'pokeapi.co'],
-        'font-src': ['font.example.com'],
-        'img-src': [SELF]
+        'default-src': [SELF]
     }
 }));
 
