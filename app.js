@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const config = require('config');
 const cors = require('cors');
-const { expressCspHeader, NONE, SELF } = require('express-csp-header');
+const { expressCspHeader, NONE, INLINE, SELF } = require('express-csp-header');
 
 const PORT = config.get('port') || 5000;
 
