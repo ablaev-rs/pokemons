@@ -3,12 +3,22 @@ const express = require('express');
 const path = require('path');
 const config = require('config');
 const cors = require('cors');
+const csp = require('express-csp-header');
 const PORT = config.get('port') || 5000;
 
 const app = express();
 
 app.use(cors());
 app.options('*', cors());
+
+app.use(csp({
+    policies: {
+        'default-src': [csp.NONE],
+        'img-src': [csp.SELF],
+    }
+}));
+
+
 app.use(express.json({ extended: true }));
 
 app.use('/api/auth', require('./routes/auth.routes'));
