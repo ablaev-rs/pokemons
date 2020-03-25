@@ -1,7 +1,7 @@
 {
-    "port": 5000,
+    "port": 80,
     "jwtSecret": "fsjgksjdgsgdfuysgdjkhsgdh",
     "jwtExpirySeconds": 3000,
     "mongoUri": "mongodb+srv://pokemonApp:uiygf87aksjhd@pokemoncluster-61xi5.mongodb.net/pokemonDb?retryWrites=true&w=majority",
-    "baseUrl": "https://quiet-mesa-94808.herokuapp.com"
+    "baseUrl": "http://ablaev.pro"
 }
