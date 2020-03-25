@@ -21,7 +21,9 @@ app.use(allowCrossDomain);
 
 app.use(expressCspHeader({
     directives: {
-        'default-src': [SELF]
+        'default-src': [SELF],
+        'script-src': [SELF, INLINE, 'pokeapi.co'],
+        'img-src': ['data:', 'pokeapi.co']
     }
 }));
 
