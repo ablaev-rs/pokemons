@@ -9,24 +9,26 @@ const PORT = config.get('port') || 5000;
 
 const app = express();
 
+app.use(cors());
+app.options('*',cors());
+const allowCrossDomain = function(req,res,next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+};
+app.use(allowCrossDomain);
+
+app.use(expressCspHeader({
+    policies: {
+        'default-src': [SELF, "http://ablaev.pro"],
+    }
+}));
+
 app.use(express.json({ extended: true }));
 
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/favorite', require('./routes/favorite.routes'));
-
-app.use(cors());
-app.options('*', cors());
-
-app.use(expressCspHeader({
-    directives: {
-        'default-src': [SELF],
-
-    },
-    policies: {
-        'default-src': [NONE],
-
-    }
-}));
 
 if(process.env["NODE_ENV"] !== 'production') {
     app.use('/', express.static(path.join(__dirname, './dist')));
