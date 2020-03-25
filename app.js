@@ -18,11 +18,7 @@ const allowCrossDomain = function(req,res,next) {
     next();
 };
 app.use(allowCrossDomain);
-app.use(function(req, res, next) {
-    res.setHeader("Content-Security-Policy", "script-src 'self' https://pokeapi.co");
-    res.setHeader("Content-Security-Policy", "default-src 'self'");
-    return next();
-});
+
 
 app.use(expressCspHeader({
     directives: {
