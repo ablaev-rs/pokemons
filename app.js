@@ -24,7 +24,8 @@ app.use(expressCspHeader({
     directives: {
         'default-src': [SELF],
         'script-src': [SELF, INLINE, 'pokeapi.co'],
-        'img-src': ['data:', 'pokeapi.co']
+        'font-src': ['font.example.com'],
+        'img-src': [SELF]
     }
 }));
 
