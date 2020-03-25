@@ -1,11 +1,13 @@
 const mongoose = require('mongoose');
 const express = require('express');
-const app = express();
 const path = require('path');
-const cors = require ('cors');
-
 const config = require('config');
+const cors = require('cors');
 const PORT = config.get('port') || 5000;
+
+const app = express();
+
+app.use(cors());
 
 app.use(express.json({ extended: true }));
 
@@ -15,7 +17,7 @@ console.log(path.resolve('client', 'build', 'index.html'));
 if(process.env["NODE_ENV"] !== 'production') {
     app.use('/', express.static(path.join(__dirname, './dist')));
 
-    app.get('*', cors(), function(_request, response) {
+    app.get('*', function(_request, response) {
         response.sendFile(path.resolve(__dirname, './dist/index.html'));
     });
 
