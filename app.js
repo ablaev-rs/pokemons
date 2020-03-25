@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 const config = require('config');
 const cors = require('cors');
-const { expressCspHeader, NONE, INLINE, SELF } = require('express-csp-header');
+const { expressCspHeader, SELF } = require('express-csp-header');
 
 const PORT = config.get('port') || 5000;
 
@@ -11,14 +11,6 @@ const app = express();
 
 app.use(cors());
 app.options('*',cors());
-const allowCrossDomain = function(req,res,next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-};
-app.use(allowCrossDomain);
-
 app.use(expressCspHeader({
     directives: {
         'default-src': [SELF]
