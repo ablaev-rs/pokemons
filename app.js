@@ -10,13 +10,15 @@ app.use(express.json({ extended: true }));
 
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/favorite', require('./routes/favorite.routes'));
+console.log(path.resolve('client', 'build', 'index.html'));
+if(process.env["NODE_ENV"] !== 'production') {
+    app.use('/', express.static(path.join(__dirname, './dist')));
 
-if(process.env["NODE_ENV"] === 'production') {
-    app.use('/', express.static(path.join(__dirname, 'client', 'build')));
+    app.get('*', function(_request, response) {
+        response.sendFile(path.resolve(__dirname, './dist/index.html'));
+    });
 
-    app.get('*', (req, res) =>{
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
-    })
+
 }
 
 async function start() {
