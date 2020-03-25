@@ -2,20 +2,10 @@ const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
 const config = require('config');
-const cors = require('cors');
-const { expressCspHeader, SELF } = require('express-csp-header');
 
 const PORT = config.get('port') || 5000;
 
 const app = express();
-
-app.use(cors());
-app.options('*',cors());
-app.use(expressCspHeader({
-    directives: {
-        'default-src': [SELF]
-    }
-}));
 
 app.use(express.json({ extended: true }));
 
@@ -28,8 +18,6 @@ if(process.env["NODE_ENV"] !== 'production') {
     app.get('*', function(_request, response) {
         response.sendFile(path.resolve(__dirname, './dist/index.html'));
     });
-
-
 }
 
 async function start() {
