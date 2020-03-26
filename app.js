@@ -9,6 +9,7 @@ const PORT = config.get('port') || 5000;
 const app = express();
 
 app.use(cors());
+
 app.use(express.json({ extended: true }));
 
 app.use(function (req, res, next) {
@@ -22,7 +23,6 @@ app.use('/api/favorite', require('./routes/favorite.routes'));
 
 if(process.env["NODE_ENV"] !== 'production') {
     app.use('/', express.static(path.join(__dirname, './dist')));
-
     app.get('*', function(_request, response) {
         response.sendFile(path.resolve(__dirname, './dist/index.html'));
     });
