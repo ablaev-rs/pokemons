@@ -19,7 +19,7 @@ app.use(express.json({ extended: true }));
 
 app.use((request, response, next) => {
     response.header("Access-Control-Allow-Origin", "*");
-    response.header("Content-Security-Policy", "default-src 'SELF'");
+    response.header("Content-Security-Policy", "img-src 'SELF'");
     response.header("X-Content-Security-Policy", "default-src *");
     response.header("X-WebKit-CSP", "default-src 'SELF'");
     response.header(
