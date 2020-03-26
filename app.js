@@ -17,17 +17,17 @@ app.use(express.json({ extended: true }));
 
 
 
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Content-Security-Policy", "default-src 'SELF' img-src 'SELF'");
-    res.header("X-Content-Security-Policy", "default-src *");
-    res.header("X-WebKit-CSP", "default-src *");
-    res.header(
+app.use((_request, response, next) => {
+    response.header("Access-Control-Allow-Origin", "*");
+    response.header("Content-Security-Policy", "default-src 'SELF'; img-src 'SELF'");
+    response.header("X-Content-Security-Policy", "default-src *");
+    response.header("X-WebKit-CSP", "default-src *");
+    response.header(
         "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     );
-    if(req.method === 'OPTIONS'){
+    if(_request.method === 'OPTIONS'){
         res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        return res.status(200).json({});
+        return response.status(200).json({});
     }
     next();
 });
