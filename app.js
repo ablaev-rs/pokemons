@@ -48,14 +48,12 @@ app.use(expressCspHeader({
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/favorite', require('./routes/favorite.routes'));
 
-app.get('/favicon.ico', (req, res) => {
-    res.sendFile(path.resolve(__dirname, './dist/favicon.ico'));
-});
 
 if(process.env["NODE_ENV"] !== 'production') {
     app.use('/', express.static(path.join(__dirname, './dist')));
     app.get('*', function(_request, response) {
         response.sendFile(path.resolve(__dirname, './dist/index.html'));
+        response.sendFile(path.resolve(__dirname, './dist/favicon.ico'));
     });
 }
 
