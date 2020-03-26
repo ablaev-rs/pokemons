@@ -30,7 +30,16 @@ app.use((req, res, next) => {
     next();
 });
 
-
+app.use(expressCspHeader({
+    directives: {
+        'default-src': [SELF, INLINE, 'https://fonts.googleapis.com', 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
+        'script-src': [SELF, INLINE, 'https://pokeapi.co'],
+        'img-src': [SELF, 'https://raw.githubusercontent.com'],
+        'style-src': [SELF, INLINE],
+        'font-src': [SELF, INLINE, 'https://fonts.googleapis.com'],
+        'block-all-mixed-content': false
+    }
+}));
 
 
 
