@@ -28,11 +28,17 @@ app.use((req, res, next) => {
 });
 
 app.use(expressCspHeader({
-    policies: {
-        'default-src': [expressCspHeader.NONE],
-        'img-src': [expressCspHeader.SELF],
+    directives: {
+        'default-src': [SELF, 'fonts.googleapis.com', 'pokeapi.co', 'raw.githubusercontent.com'],
+        'script-src': [SELF, INLINE],
+        'img-src': ['data:', 'raw.githubusercontent.com', 'ablaev.pro'],
+        'style-src': [SELF, INLINE, 'fonts.googleapis.com'],
+        'font-src': [SELF, INLINE, 'fonts.googleapis.com'],
+        'block-all-mixed-content': false
     }
 }));
+
+
 
 
 app.use('/api/auth', require('./routes/auth.routes'));
