@@ -16,6 +16,9 @@ app.use(express.json({ extended: true }));
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
+    res.header("Content-Security-Policy", "default-src *");
+    res.header("X-Content-Security-Policy", "default-src *");
+    res.header("X-WebKit-CSP", "default-src *");
     res.header(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content-Type, Accept, Authorization"
@@ -27,16 +30,7 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(expressCspHeader({
-    directives: {
-        'default-src': [SELF, INLINE, 'ablaev.pro', 'fonts.googleapis.com', 'pokeapi.co', 'raw.githubusercontent.com'],
-        'script-src': [SELF, INLINE],
-        'img-src': ['data:', 'raw.githubusercontent.com', 'ablaev.pro'],
-        'style-src': [SELF, INLINE, 'fonts.googleapis.com'],
-        'font-src': [SELF, INLINE, 'fonts.googleapis.com'],
-        'block-all-mixed-content': false
-    }
-}));
+
 
 
 
