@@ -4,6 +4,9 @@ const path = require('path');
 const config = require('config');
 const cors = require('cors');
 const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+const csp = require('csp-header');
+
+
 
 const PORT = config.get('port') || 5000;
 
@@ -14,6 +17,13 @@ app.options('*', cors());
 
 app.use(express.json({ extended: true }));
 
+csp({
+    policies: {
+        'default-src': [csp.SELF, '*'],
+        'font-src': [csp.SELF, 'data:'],
+        'img-src': [csp.SELF, 'data:'],
+    }
+});
 
 /*
 app.use((req, res, next) => {
