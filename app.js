@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const config = require('config');
 const cors = require('cors');
+const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
 
 const PORT = config.get('port') || 5000;
 
@@ -13,18 +14,28 @@ app.options('*', cors());
 
 app.use(express.json({ extended: true }));
 
-app.use((req, res, next) => { //doesn't send response just adjusts it
-    res.header("Access-Control-Allow-Origin", "*"); // to give access to any origin
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", "*");
     res.header(
         "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization" //to give access to all the headers provided
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     );
     if(req.method === 'OPTIONS'){
-        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET'); //to give access to all the methods provided
+        res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
         return res.status(200).json({});
     }
-    next(); //so that other routes can take over
+    next();
 });
+
+app.use(expressCspHeader({
+    directives: {
+        'default-src': [SELF],
+        'script-src': [SELF],
+        'style-src': [SELF],
+        'worker-src': [NONE],
+        'block-all-mixed-content': true
+    }
+}));
 
 
 app.use('/api/auth', require('./routes/auth.routes'));
