@@ -37,10 +37,10 @@ app.use(expressCspHeader({
         'script-src': [SELF, 'https://pokeapi.co'],
         'img-src': [SELF, 'https://raw.githubusercontent.com'],
         'style-src': [SELF],
-        'font-src': [SELF, INLINE, 'https://fonts.googleapis.com'],
+        'font-src': [SELF, 'https://fonts.googleapis.com'],
         'connect-src': [SELF, 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
         'form-action': [SELF],
-        'block-all-mixed-content': false
+        'block-all-mixed-content': true
     }
 }));
 
