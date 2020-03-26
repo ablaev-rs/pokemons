@@ -14,15 +14,14 @@ app.options('*', cors());
 
 app.use(express.json({ extended: true }));
 
-
+/*
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Content-Security-Policy", "default-src *");
     res.header("X-Content-Security-Policy", "default-src *");
     res.header("X-WebKit-CSP", "default-src *");
     res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+        "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     );
     if(req.method === 'OPTIONS'){
         res.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
@@ -30,7 +29,7 @@ app.use((req, res, next) => {
     }
     next();
 });
-
+*/
 app.use(expressCspHeader({
     directives: {
         'default-src': [SELF, 'https://fonts.googleapis.com', 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
