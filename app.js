@@ -16,10 +16,10 @@ app.use(express.json({ extended: true }));
 
 
 
-/*
+
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Content-Security-Policy", "default-src 'SELF'");
+    res.header("Content-Security-Policy", "default-src 'SELF' img-src 'SELF'");
     res.header("X-Content-Security-Policy", "default-src *");
     res.header("X-WebKit-CSP", "default-src *");
     res.header(
@@ -31,7 +31,7 @@ app.use((req, res, next) => {
     }
     next();
 });
-*/
+
 app.use(expressCspHeader({
     policies: {
         'default-src': [SELF, 'https://fonts.googleapis.com', 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
