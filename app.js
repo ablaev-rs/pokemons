@@ -22,19 +22,20 @@ app.use(function (req, res, next) {
 
 app.use('/api/auth', require('./routes/auth.routes'));
 app.use('/api/favorite', require('./routes/favorite.routes'));
-/*
+
 if(process.env["NODE_ENV"] !== 'production') {
     app.use('/', express.static(path.join(__dirname, './dist')));
     app.get('*', function(_request, response) {
         response.sendFile(path.resolve(__dirname, './dist/index.html'));
     });
-}*/
+}
+/*
 if(process.env["NODE_ENV"] !== 'production') {
     app.use('/', express.static(path.join(__dirname, './dist/')));
     app.get('*', function(request, response) {
         response.sendFile(path.resolve(__dirname, '/client/build/index.html'));
     });
-}
+}*/
 
 async function start() {
     try {
