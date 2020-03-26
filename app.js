@@ -14,7 +14,7 @@ app.options('*', cors());
 
 app.use(express.json({ extended: true }));
 
-/*
+
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Content-Security-Policy", "default-src *");
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
     }
     next();
 });
-*/
+
 app.use(expressCspHeader({
     directives: {
         'default-src': [SELF, 'https://fonts.googleapis.com', 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
