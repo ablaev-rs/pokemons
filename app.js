@@ -14,10 +14,6 @@ app.options('*', cors());
 
 app.use(express.json({ extended: true }));
 
-app.use(function(req, res, next) {
-    res.setHeader("Content-Security-Policy", "script-src 'self' https://fonts.googleapis.com https://pokeapi.co https://raw.githubusercontent.com");
-    return next();
-});
 
 /*
 app.use((req, res, next) => {
