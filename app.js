@@ -29,7 +29,7 @@ app.use((req, res, next) => {
 
 app.use(expressCspHeader({
     directives: {
-        'default-src': [SELF, INLINE, 'fonts.googleapis.com', 'pokeapi.co', 'raw.githubusercontent.com'],
+        'default-src': [SELF, INLINE, 'ablaev.pro', 'fonts.googleapis.com', 'pokeapi.co', 'raw.githubusercontent.com'],
         'script-src': [SELF, INLINE],
         'img-src': ['data:', 'raw.githubusercontent.com', 'ablaev.pro'],
         'style-src': [SELF, INLINE, 'fonts.googleapis.com'],
