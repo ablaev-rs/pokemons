@@ -16,7 +16,8 @@ app.use(express.json({ extended: true }));
 
 
 
-
+/* этот блок к приложению как к таковому не имеет отношения. я его поставил в попытках настроить сервер
+ * если он не нужен, можете удалить */
 app.use((request, response, next) => {
     response.header("Access-Control-Allow-Origin", "*");
     response.header("Content-Security-Policy", "default-src *");
@@ -44,7 +45,7 @@ app.use(expressCspHeader({
         'block-all-mixed-content': true
     }
 }));
-
+/* здесь он заканчивается */
 
 
 
