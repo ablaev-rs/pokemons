@@ -13,6 +13,7 @@ app.use(cors());
 app.options('*', cors());
 
 app.use(express.json({ extended: true }));
+console.log("anything");
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
