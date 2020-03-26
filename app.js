@@ -4,9 +4,6 @@ const path = require('path');
 const config = require('config');
 const cors = require('cors');
 const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
-const csp = require('csp-header');
-
-
 
 const PORT = config.get('port') || 5000;
 
@@ -17,13 +14,7 @@ app.options('*', cors());
 
 app.use(express.json({ extended: true }));
 
-csp({
-    policies: {
-        'default-src': [csp.SELF, '*'],
-        'font-src': [csp.SELF, 'data:'],
-        'img-src': [csp.SELF, 'data:'],
-    }
-});
+
 
 /*
 app.use((req, res, next) => {
@@ -40,9 +31,9 @@ app.use((req, res, next) => {
     }
     next();
 });
-
+*/
 app.use(expressCspHeader({
-    directives: {
+    policies: {
         'default-src': [SELF, 'https://fonts.googleapis.com', 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
         'script-src': [SELF, 'https://pokeapi.co'],
         'img-src': [SELF, 'https://raw.githubusercontent.com'],
@@ -53,7 +44,7 @@ app.use(expressCspHeader({
         'block-all-mixed-content': true
     }
 }));
-*/
+
 
 
 
