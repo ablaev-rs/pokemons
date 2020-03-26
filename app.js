@@ -30,19 +30,21 @@ app.use((req, res, next) => {
     }
     next();
 });
-
+*/
 app.use(expressCspHeader({
     directives: {
-        'default-src': [SELF, INLINE, 'https://fonts.googleapis.com', 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
-        'script-src': [SELF, INLINE, 'https://pokeapi.co'],
+        'default-src': [SELF, 'https://fonts.googleapis.com', 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
+        'script-src': [SELF, 'https://pokeapi.co'],
         'img-src': [SELF, 'https://raw.githubusercontent.com'],
-        'style-src': [SELF, INLINE],
+        'style-src': [SELF],
         'font-src': [SELF, INLINE, 'https://fonts.googleapis.com'],
+        'connect-src': [SELF, 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
+        'form-action': [SELF],
         'block-all-mixed-content': false
     }
 }));
 
-*/
+
 
 
 app.use('/api/auth', require('./routes/auth.routes'));
@@ -53,7 +55,6 @@ if(process.env["NODE_ENV"] !== 'production') {
     app.use('/', express.static(path.join(__dirname, './dist')));
     app.get('*', function(_request, response) {
         response.sendFile(path.resolve(__dirname, './dist/index.html'));
-        response.sendFile(path.resolve(__dirname, './dist/favicon.ico'));
     });
 }
 
