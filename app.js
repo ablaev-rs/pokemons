@@ -2,10 +2,13 @@ const mongoose = require('mongoose');
 const express = require('express');
 const path = require('path');
 const config = require('config');
+const cors = require('cors');
 
 const PORT = config.get('port') || 5000;
 
 const app = express();
+
+app.use(cors());
 
 app.use(express.json({ extended: true }));
 
