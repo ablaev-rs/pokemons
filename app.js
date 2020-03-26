@@ -28,12 +28,9 @@ app.use((req, res, next) => {
 });
 
 app.use(expressCspHeader({
-    directives: {
-        'default-src': [SELF],
-        'script-src': [SELF],
-        'style-src': [SELF],
-        'worker-src': [NONE],
-        'block-all-mixed-content': true
+    policies: {
+        'default-src': [expressCspHeader.NONE],
+        'img-src': [expressCspHeader.SELF],
     }
 }));
 
