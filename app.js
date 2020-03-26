@@ -14,7 +14,12 @@ app.options('*', cors());
 
 app.use(express.json({ extended: true }));
 
+app.use(function(req, res, next) {
+    res.setHeader("Content-Security-Policy", "script-src 'self' https://fonts.googleapis.com https://pokeapi.co https://raw.githubusercontent.com");
+    return next();
+});
 
+/*
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Content-Security-Policy", "default-src 'SELF'");
@@ -42,7 +47,7 @@ app.use(expressCspHeader({
         'block-all-mixed-content': true
     }
 }));
-
+*/
 
 
 
