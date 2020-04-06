@@ -16,36 +16,7 @@ app.use(express.json({ extended: true }));
 
 
 
-/* этот блок к приложению как к таковому не имеет отношения. я его поставил в попытках настроить сервер
- * если он не нужен, можете удалить */
-app.use((request, response, next) => {
-    response.header("Access-Control-Allow-Origin", "*");
-    response.header("Content-Security-Policy", "default-src *");
-    response.header("X-Content-Security-Policy", "default-src *");
-    response.header("X-WebKit-CSP", "default-src *");
-    response.header(
-        "Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-    );
-    if(request.method === 'OPTIONS'){
-        response.header('Access-Control-Allow-Methods', 'PUT, POST, PATCH, DELETE, GET');
-        return response.status(200).json({});
-    }
-    next();
-});
 
-app.use(expressCspHeader({
-    policies: {
-        'default-src': [SELF, 'https://fonts.googleapis.com', 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
-        'script-src': [SELF, 'https://pokeapi.co'],
-        'img-src': [SELF, 'https://raw.githubusercontent.com'],
-        'style-src': [SELF],
-        'font-src': [SELF, 'https://fonts.googleapis.com'],
-        'connect-src': [SELF, 'https://pokeapi.co', 'https://raw.githubusercontent.com'],
-        'form-action': [SELF],
-        'block-all-mixed-content': true
-    }
-}));
-/* здесь он заканчивается */
 
 
 
