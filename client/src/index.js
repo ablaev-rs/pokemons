@@ -8,7 +8,7 @@ import { StylesProvider } from '@material-ui/core/styles';
 
 ReactDOM.render(
     <BrowserRouter>
-        <StylesProvider jss={jss}>
+        <StylesProvider>
             <App />
         </StylesProvider>
     </BrowserRouter>,
