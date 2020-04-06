@@ -4,10 +4,13 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from "react-router-dom";
+import { StylesProvider } from '@material-ui/core/styles';
 
 ReactDOM.render(
     <BrowserRouter>
-        <App />
+        <StylesProvider jss={jss}>
+            <App />
+        </StylesProvider>
     </BrowserRouter>,
     document.getElementById('root'));
 
