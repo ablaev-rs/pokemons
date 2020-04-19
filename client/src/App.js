@@ -10,20 +10,17 @@ import Pokemon from "./components/Pokemon/Pokemon";
 import Signin from "./components/Signin/Signin";
 import Signup from "./components/Signup/Signup";
 import AuthApi from  "./сontext/authContext";
-//const authModule = require("./сontext/authModule");
-
+const authModule = require("./сontext/authModule");
 
 class App extends React.Component {
 
     componentDidMount() {
-        /*const authData =  JSON.parse(localStorage.getItem(authorizationData.storageName));
+        const authData =  JSON.parse(localStorage.getItem(authorizationData.storageName));
         if(authData && authData.token) {
-            console.log("authData.token" + authData.token);
             authorizationData.setToken(authData.token);
             authorizationData.setUserId(authData.userId);
-        }*/
+        }
     }
-
 
     render() {
 
@@ -54,18 +51,13 @@ class App extends React.Component {
                                 :
                                 <Switch>
                                     <Route path="/" exact>
-                                        <Pokemon
-                                            store={pokemonData}
-                                            /*storageName = {authorizationData.storageName}
-                                            setToken = {authorizationData.setToken}
-                                            setUserId = {authorizationData.setUserId}*/
-                                        />
+                                        <Pokemon store={pokemonData} />
                                     </Route>
                                     <Route path="/signin" exact>
-                                        <Signin store={signData}/>
+                                        <Signin store={signData} />
                                     </Route>
                                     <Route path="/signup" exact>
-                                        <Signup store={signData}/>
+                                        <Signup store={signData} />
                                     </Route>
                                     <Redirect to="/" exact/>
                                 </Switch>

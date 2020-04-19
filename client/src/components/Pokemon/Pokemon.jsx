@@ -19,7 +19,6 @@ import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import Input from "@material-ui/core/Input";
 import Typography from "@material-ui/core/Typography";
-//const authModule = require("../../сontext/authModule");
 
 
 class Pokemon extends React.Component {
@@ -34,12 +33,13 @@ class Pokemon extends React.Component {
         }
     }
 
+
     render() {
 
         const {
             Pokemons, count, limit, perPage, currentPage, loading, onLimitChanged, onPageChanged,
-            setTemplateSearchByName, pokemonTypes, setSelectedTypes, selectedTypes,
-            addToFavorite, isFavorite, deleteFromFavorite, h1,
+            setTemplateSearchByName, templatePokemonName, pokemonTypes, setSelectedTypes, selectedTypes,
+            addToFavorite, isFavorite, deleteFromFavorite, h1, onChangeSearchByName,
             clearForm} = this.props.store;
 
         let setColorType = (name) => {
@@ -93,7 +93,9 @@ class Pokemon extends React.Component {
                             </InputLabel>
                             <Input type="text"
                                    name="templatePokemonName"
-                                   placeholder="Enter pokemon's name" />
+                                   placeholder="Enter pokemon's name"
+                                   value = {templatePokemonName}
+                                   onChange={onChangeSearchByName} />
                             <Button type="submit" className="MuiButton-containedPrimary MuiButton-containedSizeSmall">Search</Button>
                         </form>
 
@@ -116,17 +118,15 @@ class Pokemon extends React.Component {
                             <Button type="submit" className="MuiButton-containedPrimary MuiButton-containedSizeSmall">Search</Button>
                         </form>
 
-                        {/*<form onSubmit={clearForm}>
+                        <form onSubmit={clearForm}>
                             <Button type="submit" className="MuiButton-outlinedSecondary MuiButton-containedSizeSmall">Clear Form</Button>
-                        </form>*/}
+                        </form>
 
                     </Grid>
                     <Grid item xs={12} sm={9} md={10} lg={10}>
                         {loading ? <div>Loading...</div> : (
                             <span>
-                                <Typography variant="h3" noWrap="true" gutterBottom="true">
-                                  {h1}
-                                </Typography>
+                                <Typography variant="h3" noWrap="true" gutterBottom="true">{h1}</Typography>
                                 {Pokemons.length == 0 ? <div>Nothing found</div> : (
                                     <TableContainer>
                                 <Table>

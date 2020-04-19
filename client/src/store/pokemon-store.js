@@ -21,6 +21,115 @@ class pokemonData {
     h1 = "List of Pokemon";
     pokemonTypes = ["bug", "dark", "dragon", "electric", "fairy", "fighting", "fire", "flying", "ghost", "grass", "ground", "ice", "normal", "poison", "psychic", "rock", "steel", "water"];
 
+
+    loadPokemons = async () => {
+        this.h1 = "List of Pokemon";
+        this.setLoading(true);
+        await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${this.offset}&limit=${this.limit}`)
+            .then(response => {
+                this.tmpCount = response.data.count;
+                let pokemonLinks = response.data.results;
+                this.templatePokemonName ?
+                    this.searchPokemonsByName(pokemonLinks) :
+                    this.getDetailsForPokemonsByUrl(pokemonLinks, response.data.count);
+            })
+    };
+
+    getDetailsForPokemonsByUrl = (pokemonLinks, cnt) => {
+        Promise.all(
+            pokemonLinks.map( p => {
+                return this.getPokemonsInfo(p.url);
+            })
+        ).then( response => {
+            runInAction(() => {
+                this.setCount(cnt);
+                this.setPokemons(response);
+                this.setLoading(false);
+            })
+        })
+    };
+
+    getPokemonsInfo = (url) => {
+        return axios.get(url)
+    };
+
+
+    /* SEARCH POKEMONS BY TYPES */
+    setSelectedTypes = (e) => {
+        e.preventDefault();
+        this.setLoading(true);
+        this.templatePokemonName = null;
+        let options = e.target.searchTypes;
+        let value = [];
+        for (let i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+            }
+        }
+        this.selectedTypes = value;
+        this.getListUrlForSelectedTypes();
+    };
+
+    getListUrlForSelectedTypes =  () => {
+        let pokemonLinks = [];
+        Promise.all(
+            this.selectedTypes.map (t => {
+                return this.getPokemonsByType(t);
+            })
+        ).then( response => {
+            response.map( arr => {
+                let data = arr.data.pokemon;
+                data.map( el => {
+                    pokemonLinks.push(el.pokemon);
+                })
+            });
+            this.tmpPokemons = [...new Map(pokemonLinks.map(obj => [JSON.stringify(obj), obj])).values()];
+            this.selectionElementsForPage(this.tmpPokemons);
+        })
+    };
+
+    getPokemonsByType = (t) => {
+        return axios.get(`https://pokeapi.co/api/v2/type/` + t)
+    };
+    /* / */
+
+
+    /* SEARCH POKEMONS BY NAME */
+    setTemplateSearchByName = (e) => {
+        e.preventDefault();
+        this.setLoading(true);
+        this.selectedTypes = [];
+        this.setOffset(0);
+        this.loadPokemons();
+    };
+
+    onChangeSearchByName = (event) => {
+        this.templatePokemonName = event.target.value;
+    }
+
+    searchPokemonsByName = (pokemonLinks) => {
+        let searchResult = pokemonLinks.filter( pName => {
+            return pName.name === this.templatePokemonName;
+        });
+
+        if(searchResult.length > 0) {
+            this.getDetailsForPokemonsByUrl(searchResult, searchResult.length);
+
+        } else {
+            if(this.offset < this.tmpCount) {
+                let newOffset = this.offset + this.limit;
+                this.setOffset(newOffset);
+                this.loadPokemons();
+            } else {
+                this.setPokemons([]);
+                this.setLoading(false);
+            }
+        }
+    };
+     /* / */
+
+
+    /* FAVORITE POKEMONS */
     addToFavorite = async (e) => {
         e.preventDefault();
         let pid = e.target.pid.value;
@@ -69,29 +178,29 @@ class pokemonData {
     }
 
     getListFavorite = async () => {
-            this.loading = true;
-            let pokemonLinks = [];
-            await axios.get(`/api/favorite/list/`,
-                {
-                    headers: {
-                        'Authorization': 'Bearer ' + authorizationData.token,
-                        'alg': 'HS256',
-                        'typ': 'JWT'
-                    }
-                })
-                .then(response => {
-                    let data = response.data;
-                    data.map(p => {
-                        pokemonLinks.push({"url": p.link});
-                    });
-                    this.favoritePokemons = pokemonLinks;
-                    this.loadPokemons();
+        this.setLoading(true);
+        let pokemonLinks = [];
+        await axios.get(`/api/favorite/list/`,
+            {
+                headers: {
+                    'Authorization': 'Bearer ' + authorizationData.token,
+                    'alg': 'HS256',
+                    'typ': 'JWT'
+                }
+            })
+            .then(response => {
+                let data = response.data;
+                data.map(p => {
+                    pokemonLinks.push({"url": p.link});
                 });
+                this.favoritePokemons = pokemonLinks;
+                this.loadPokemons();
+            });
     }
 
     listFavorite = async (authToken) => {
         let pokemonLinks = [];
-         await axios.get(`/api/favorite/list/`,
+        await axios.get(`/api/favorite/list/`,
             {
                 headers: {
                     'Authorization':'Bearer ' + authToken,
@@ -109,146 +218,40 @@ class pokemonData {
                 this.getDetailsForPokemonsByUrl(pokemonLinks, pokemonLinks.length);
             });
     }
+    /* / */
 
 
-
-
-    loadPokemons = async () => {
-        this.h1 = "List of Pokemon";
-        this.loading = true;
-        await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=${this.offset}&limit=${this.limit}`)
-            .then(response => {
-                this.tmpCount = response.data.count;
-                let pokemonLinks = response.data.results;
-                this.templatePokemonName ?
-                    this.searchPokemonsByName(pokemonLinks) :
-                    this.getDetailsForPokemonsByUrl(pokemonLinks, response.data.count);
-            })
-    };
-
-    getDetailsForPokemonsByUrl = (pokemonLinks, cnt) => {
-        Promise.all(
-            pokemonLinks.map( p => {
-                return this.getPokemonsInfo(p.url);
-            })
-        ).then( response => {
-            runInAction(() => {
-                this.setCount(cnt);
-                this.setPokemons(response);
-                this.loading = false;
-            })
-        })
-    };
-
-    getPokemonsInfo = (url) => {
-        return axios.get(url)
-    };
-
-
-    /* SEARCH POKEMONS BY TYPES */
-
-    setSelectedTypes = (e) => {
-        this.loading = true;
-        this.templatePokemonName = "";
-        let options = e.target.searchTypes;
-        let value = [];
-        for (let i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }
-        this.selectedTypes = value;
-        this.getListUrlForSelectedTypes();
-        e.preventDefault();
-    };
-
-    getListUrlForSelectedTypes =  () => {
-        let pokemonLinks = [];
-        Promise.all(
-            this.selectedTypes.map (t => {
-                return this.getPokemonsByType(t);
-            })
-        ).then( response => {
-            response.map( arr => {
-                let data = arr.data.pokemon;
-                data.map( el => {
-                    pokemonLinks.push(el.pokemon);
-                })
-            });
-            this.tmpPokemons = [...new Map(pokemonLinks.map(obj => [JSON.stringify(obj), obj])).values()];
-            this.selectionElementsForPage(this.tmpPokemons);
-        })
-    };
-
-    getPokemonsByType = (t) => {
-        return axios.get(`https://pokeapi.co/api/v2/type/` + t)
-    };
-
-
-    /* SEARCH POKEMONS BY NAME */
-
-    setTemplateSearchByName = (e) => {
-        this.selectedTypes = [];
-        this.loading = true;
-        this.templatePokemonName = e.target.templatePokemonName.value;
-        this.setOffset(0);
-        this.loadPokemons();
-        e.preventDefault();
-    };
-
-    searchPokemonsByName = (pokemonLinks) => {
-        let searchResult = pokemonLinks.filter( pName => {
-            return pName.name === this.templatePokemonName;
-        });
-
-        if(searchResult.length > 0) {
-            this.getDetailsForPokemonsByUrl(searchResult, searchResult.length);
-
-        } else {
-            if(this.offset < this.tmpCount) {
-                let newOffset = this.offset + this.limit;
-                this.setOffset(newOffset);
-                this.loadPokemons();
-            } else {
-                this.setPokemons([]);
-                this.loading = false;
-            }
-        }
-    };
-
-    clearForm = (e) => {
-        this.loading = true;
-        this.setOffset(0);
-        this.selectedTypes = [];
-        this.templatePokemonName = "";
-        this.loadPokemons();
-        e.preventDefault();
-    };
-
+    /* PAGINATION */
     onLimitChanged = (event) => {
-        runInAction( () => {
-            let l = event.target.value;
-            this.limit = l;
-            this.offset = this.currentPage*l;
-            this.loading = true;
-            this.selectedTypes.length > 0 ? this.selectionElementsForPage(this.tmpPokemons) : this.loadPokemons();
-        });
+        let l = event.target.value;
+        this.limit = l;
+        this.offset = this.currentPage * l;
+        this.setLoading(true);
+        this.selectedTypes.length > 0 ? this.selectionElementsForPage(this.tmpPokemons) : this.loadPokemons();
     };
 
     onPageChanged = (event, page) => {
-        runInAction( () => {
-            let p = page;
-            this.currentPage = p;
-            this.offset = p*this.limit;
-            this.loading = true;
-            this.selectedTypes.length > 0 ? this.selectionElementsForPage(this.tmpPokemons) : this.loadPokemons();
-        });
+        let p = page;
+        this.currentPage = p;
+        this.offset = p * this.limit;
+        this.setLoading(true);
+        this.selectedTypes.length > 0 ? this.selectionElementsForPage(this.tmpPokemons) : this.loadPokemons();
     };
 
     selectionElementsForPage = (pokemonLinks) => {
         let selection = pokemonLinks.slice(this.offset, this.offset+this.limit);
-        this.loading = true;
+        this.setLoading(true);
         this.getDetailsForPokemonsByUrl(selection, pokemonLinks.length);
+    };
+    /* / */
+
+
+
+    clearForm = () => {
+        this.templatePokemonName = "";
+        this.selectedTypes = [];
+        this.setOffset(0);
+        this.loadPokemons();
     };
 
     setPokemons = data => {
@@ -262,6 +265,10 @@ class pokemonData {
     setOffset = offset => {
         this.offset = offset;
     };
+
+    setLoading = loading => {
+        this.loading = loading;
+    }
 }
 
 pokemonData = decorate(pokemonData, {
@@ -289,7 +296,9 @@ pokemonData = decorate(pokemonData, {
     deleteFromFavorite: action,
     listFavorite: action,
     isFavorite: action,
-    getListFavorite: action
+    getListFavorite: action,
+    setLoading: action,
+    onChangeSearchByName: action
 });
 
 export default new pokemonData;

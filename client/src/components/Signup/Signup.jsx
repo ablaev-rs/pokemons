@@ -1,4 +1,6 @@
 import React from 'react';
+import {observer} from "mobx-react";
+import {Link as RouterLink} from "react-router-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -9,8 +11,7 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
-import {observer} from "mobx-react";
-import {Link as RouterLink} from "react-router-dom";
+import ErrorInform from "../ErrorInform/ErrorInform";
 
 const styles = {
     paper: {
@@ -25,10 +26,12 @@ const styles = {
 
 class SignupDefault extends React.Component {
 
+
+
     render() {
 
+        const { saveAuthData, errorStatus, errorMessage, onChangeEmail, onChangePassword, email, password } = this.props.store;
         const { classes } = this.props;
-        const { saveAuthData, loading } = this.props.store;
 
         return (
             <Container component="main" maxWidth="xs">
@@ -37,9 +40,13 @@ class SignupDefault extends React.Component {
                     <Avatar>
                         <LockOutlinedIcon />
                     </Avatar>
+
                     <Typography component="h1" variant="h5">
                         Sign up
                     </Typography>
+
+                    <ErrorInform errorMessage = {errorMessage} errorStatus = {errorStatus} />
+
                     <form className={classes.form} onSubmit={saveAuthData}>
                         <Grid container justify="flex-end">
                             <Grid item>
@@ -50,7 +57,7 @@ class SignupDefault extends React.Component {
                         </Grid>
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
-                                <TextField
+                                 <TextField
                                     variant="outlined"
                                     required
                                     fullWidth
@@ -58,6 +65,9 @@ class SignupDefault extends React.Component {
                                     label="Email Address"
                                     name="email"
                                     autoComplete="email"
+                                    type = "text"
+                                    onChange={onChangeEmail}
+                                    value={email}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -70,10 +80,12 @@ class SignupDefault extends React.Component {
                                     type="password"
                                     id="password"
                                     autoComplete="current-password"
+                                    onChange={onChangePassword}
+                                    value={password}
                                 />
                             </Grid>
                         </Grid>
-                        <Button type="submit" fullWidth variant="contained" color="primary" disabled = {loading}> Sign Up </Button>
+                        <Button type="submit" fullWidth variant="contained" color="primary"> Sign Up </Button>
                     </form>
                 </div>
             </Container>

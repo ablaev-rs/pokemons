@@ -29,8 +29,8 @@ class SigninDefault extends React.Component {
 
     render() {
 
+        const { getAuthData } = this.props.store;
         const { classes } = this.props;
-        const { getAuthData, loading } = this.props.store;
 
         return (
             <Container component="main" maxWidth="xs">
@@ -72,7 +72,7 @@ class SigninDefault extends React.Component {
                             id="password"
                             autoComplete="current-password"
                         />
-                        <Button type="submit" fullWidth variant="contained" color="primary" disabled = {loading}> Sign In </Button>
+                        <Button type="submit" fullWidth variant="contained" color="primary"> Sign In </Button>
 
                     </form>
 

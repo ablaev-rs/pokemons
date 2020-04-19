@@ -1,6 +1,6 @@
 import React from "react";
 import {action, configure, decorate, observable} from "mobx";
-configure({enforceActions: true});
+configure({enforceActions: "observed"});
 
 class authorizationData {
 
